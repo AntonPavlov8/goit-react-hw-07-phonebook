@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ContactsItem } from './ContactsItem';
 import validator from 'validator';
 import { Search } from './Search';

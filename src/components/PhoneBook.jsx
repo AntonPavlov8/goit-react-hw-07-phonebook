@@ -9,7 +9,7 @@ export const PhoneBook = () => {
 
   useEffect(() => {
     dispatch(fetchContacts());
-  }, []);
+  }, [dispatch]);
 
   let formRef = useRef();
 
