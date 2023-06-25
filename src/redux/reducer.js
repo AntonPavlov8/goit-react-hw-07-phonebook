@@ -36,7 +36,8 @@ const rootReducer = createSlice({
       .addCase(addContact.pending, state => {
         state.contacts.isLoading = true;
       })
-      .addCase(addContact.fulfilled, state => {
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.contacts.items = [...state.contacts.items, action.payload];
         state.contacts.isLoading = false;
         state.contacts.error = null;
       })

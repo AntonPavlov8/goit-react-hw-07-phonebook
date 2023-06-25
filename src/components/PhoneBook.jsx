@@ -29,16 +29,8 @@ export const PhoneBook = () => {
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const phone = form.elements.phone.value;
-    if (contacts.filter(person => person.name === name).length === 0) {
-      if (contacts.filter(person => person.phone === phone).length === 0) {
-        dispatch(
-          addContact({
-            name,
-            phone,
-          })
-        ).then(() => dispatch(fetchContacts()));
-      } else alert(`Person with number ${phone} is already in contacts`);
-    } else alert(`${name} is already in contacts`);
+
+    dispatch(addContact({ contacts, name, phone }));
   }
 
   return (
