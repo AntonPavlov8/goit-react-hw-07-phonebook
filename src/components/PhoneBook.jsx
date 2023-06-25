@@ -1,14 +1,19 @@
-import { nanoid } from 'nanoid';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { setContacts } from 'redux/reducer';
+import { addContact, fetchContacts } from 'redux/operators';
+
 import { Contacts } from './Contacts';
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, []);
+
   let formRef = useRef();
 
-  const contacts = useSelector(state => state.contacts, shallowEqual);
+  const contacts = useSelector(state => state.contacts.items, shallowEqual);
   const previousCountRef = useRef(contacts);
   const isStateChanged = previousCountRef.current !== contacts;
 
@@ -20,18 +25,20 @@ export const PhoneBook = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const id = nanoid();
+
     const form = e.currentTarget;
     const name = form.elements.name.value;
-    const number = form.elements.number.value;
-
-    dispatch(
-      setContacts({
-        id,
-        name,
-        number,
-      })
-    );
+    const phone = form.elements.phone.value;
+    if (contacts.filter(person => person.name === name).length === 0) {
+      if (contacts.filter(person => person.phone === phone).length === 0) {
+        dispatch(
+          addContact({
+            name,
+            phone,
+          })
+        ).then(() => dispatch(fetchContacts()));
+      } else alert(`Person with number ${phone} is already in contacts`);
+    } else alert(`${name} is already in contacts`);
   }
 
   return (
@@ -61,7 +68,7 @@ export const PhoneBook = () => {
         <span>Number</span>
         <input
           type="tel"
-          name="number"
+          name="phone"
           pattern="^(?:\+?\d{1,3})?\d+$"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

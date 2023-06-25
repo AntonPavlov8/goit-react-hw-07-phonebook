@@ -1,17 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ContactsItem } from './ContactsItem';
 import validator from 'validator';
 import { Search } from './Search';
 
 export const Contacts = prop => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filter);
 
   const showContacts = () => {
     function searchingResults() {
       function checkType(contact) {
         if (validator.isNumeric(filter)) {
-          return contact.number;
+          return contact.phone;
         }
         return contact.name;
       }
