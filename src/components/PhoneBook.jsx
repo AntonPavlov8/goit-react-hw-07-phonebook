@@ -14,6 +14,8 @@ export const PhoneBook = () => {
   let formRef = useRef();
 
   const contacts = useSelector(state => state.contacts.items, shallowEqual);
+  const isLoading = useSelector(state => state.contacts.isLoading);
+  const error = useSelector(state => state.contacts.error);
   const previousCountRef = useRef(contacts);
   const isStateChanged = previousCountRef.current !== contacts;
 
@@ -68,7 +70,8 @@ export const PhoneBook = () => {
 
         <button action="submit">Add contact</button>
       </form>
-      <Contacts />
+      {error && <p style={{ color: 'red', maxWidth: '300px' }}> {error}</p>}
+      {isLoading ? <span>Loading...</span> : <Contacts />}
     </div>
   );
 };

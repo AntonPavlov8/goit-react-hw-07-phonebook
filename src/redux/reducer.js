@@ -42,7 +42,7 @@ const rootReducer = createSlice({
         state.contacts.error = null;
       })
       .addCase(addContact.rejected, (state, action) => {
-        state.contacts.error = action.payload;
+        state.contacts.error = action.error.message;
         state.contacts.isLoading = false;
       })
       //delete contact
